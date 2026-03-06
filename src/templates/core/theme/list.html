@@ -1,0 +1,82 @@
+{% extends "base.html" %} {% load query_tags %} {% block content %}
+
+<a href="{% url 'core:create_theme' %}">Создать</a>
+
+
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <form method="get" class="row g-3 align-items-end">
+
+      <div class="col-md-5">
+        <label for="q" class="form-label small fw-bold">Поиск по названию</label>
+        <input
+          type="text"
+          name="q"
+          id="q"
+          class="form-control"
+          placeholder="Введите часть названия..."
+          value="{{ request.GET.q }}"
+        />
+      </div>
+
+
+      <div class="col-md-3">
+        <label for="is_active" class="form-label small fw-bold">Статус</label>
+        <select name="is_active" id="is_active" class="form-select">
+
+    <option value="" {% if not request.GET.is_active %}selected{% endif %}>Все статусы</option>
+    
+
+    <option value="true" {% if request.GET.is_active == "true" %}selected{% endif %}>Активные</option>
+    <option value="false" {% if request.GET.is_active == "false" %}selected{% endif %}>Неактивные</option>
+</select>
+      </div>
+
+
+      <div class="col-md-4 d-flex gap-2">
+        <button type="submit" class="btn btn-primary flex-grow-1">
+          <i class="bi bi-search"></i>
+          Применить
+        </button>
+        <a href="{% url 'user:theme_list' %}" class="btn btn-outline-secondary">Сбросить</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% for item in page_obj %}
+<div>{{ item.name }}</div>
+{% endfor %}
+
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+
+      <a class="page-link" href="?{% url_replace page=1 %}">&laquo; Первая</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?{% url_replace page=page_obj.previous_page_number %}">Назад</a>
+    </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">
+        Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+      </span>
+    </li>
+
+    {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?{% url_replace page=page_obj.next_page_number %}">Вперед</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="?{% url_replace page=page_obj.paginator.num_pages %}">
+        Последняя &raquo;
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{%endblock %}
