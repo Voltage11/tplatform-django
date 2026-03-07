@@ -127,6 +127,34 @@ STATICFILES_DIRS = [
 
 # Кастомная модель user
 AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = 'user:login'
 # После успешной авторизации перенаправляем
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'user:login'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log', # Файл создастся в корне проекта
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO', # Уровень: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    },
+}
