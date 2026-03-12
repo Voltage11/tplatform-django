@@ -76,8 +76,11 @@
                     </td>
                     <td class="text-right">
                         {#                        <a href="{% url 'core:theme_detail' theme.slug %}" class="btn-link">Открыть</a>#}
-                        <img class="me-2" src="{% static 'icons/pencil-square.svg' %}" alt="Редактировать"
-                             title="Редактировать">
+                        <a href="{% url 'core:update_theme' theme.id %}"> <img class="me-2"
+                                                                               src="{% static 'icons/pencil-square.svg' %}"
+                                                                               alt="Редактировать"
+                                                                               title="Редактировать">
+                        </a>
                         <img src="{% static 'icons/list-task.svg' %}" alt="Вопросы" title="Вопросы">
                     </td>
                 </tr>

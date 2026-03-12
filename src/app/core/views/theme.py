@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import BooleanField, Case, Q, Value, When
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
 
-from app.core.forms.theme import ThemeCreateForm
+from app.core.forms.theme import ThemeCreateForm, ThemeUpdateForm
 from app.core.models import Theme
 
 
@@ -53,22 +53,27 @@ def create_theme(request):
     if request.method == "POST":
         form = ThemeCreateForm(request.POST)
         if form.is_valid():
-            Theme.objects.create(
-                name=form.cleaned_data["name"],
-                comment=form.cleaned_data["comment"],
-                is_active=form.cleaned_data["is_active"],
-                date_from=form.cleaned_data["date_from"],
-                date_to=form.cleaned_data["date_to"],
-                user=request.user,
-            )
+            theme = form.save(commit=False)
+            theme.user = request.user
+            theme.save()
             return redirect("core:theme_list")
     else:
         form = ThemeCreateForm()
-
     return render(request, "core/theme/create.html", {"form": form})
 
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 @require_http_methods(["GET", "POST"])
-def edit_theme(request, pk: int): ...
+def update_theme(request, pk: int):
+    theme = get_object_or_404(Theme, pk=pk)
+
+    if request.method == "POST":
+        form = ThemeUpdateForm(request.POST, instance=theme)
+        if form.is_valid():
+            form.save()
+            return redirect("core:theme_list")
+    else:
+        form = ThemeUpdateForm(instance=theme)
+
+    return render(request, "core/theme/update.html", {"form": form, "theme": theme})

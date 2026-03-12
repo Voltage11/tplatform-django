@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% load query_tags %} {% block content %}
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Редактирование темы</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" class="needs-validation">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form.name.label }}</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form.comment.label }}</label>
+                        {{ form.comment }}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ form.date_from.label }}</label>
+                            {{ form.date_from }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ form.date_to.label }}</label>
+                            {{ form.date_to }}
+                        </div>
+                    </div>
+
+                    {#                    <div class="row">#}
+                    {#                        <div class="col-md-6 mb-3">#}
+                    {#                            <label class="form-label fw-bold">{{ form.points.label }}</label>#}
+                    {#                            {{ form.points }}#}
+                    {#                        </div>#}
+                    {#                        <div class="col-md-6 mb-3">#}
+                    {#                            <label class="form-label fw-bold">{{ form.check_points.label }}</label>#}
+                    {#                            {{ form.check_points }}#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+
+                    <div class="mb-3 form-check form-switch">
+                        {{ form.is_active }}
+                        <label class="form-check-label ms-2" for="{{ form.is_active.id_for_label }}">
+                            {{ form.is_active.label }}
+                        </label>
+                    </div>
+
+                    <hr/>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a class="btn btn-dark" href="{% url 'core:theme_list' %}">Назад к списку тем</a>
+                        <button type="submit" class="btn btn-success px-5">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
