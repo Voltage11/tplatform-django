@@ -1,9 +1,12 @@
+import uuid
+
 from django.db import models
 from .base_model import BaseModel
 
 
 class Answer(BaseModel):
     """ Вариант ответа модель """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     question = models.ForeignKey(
         'Question',
         on_delete=models.CASCADE,

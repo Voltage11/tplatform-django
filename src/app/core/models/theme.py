@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils import timezone
 
@@ -13,8 +15,9 @@ class ThemeType(models.TextChoices):
 
 class Theme(BaseModel):
     """ Тема для тестирования модель """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField('Тема', max_length=150)
-    description = models.TextField('Описание', null=True, blank=True)    
+    description = models.TextField('Описание', null=True, blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.PROTECT, 
