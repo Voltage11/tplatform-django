@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from typing import List
 
 
@@ -31,12 +32,22 @@ MAIN_MENU.Items = [
     MenuItem('Третья', '#'),
 ]
 
-def main_menu(request) -> dict:
+def main_menu(request: HttpRequest) -> dict:
+    is_admin = request.user.is_authenticated and request.user.is_superuser
+    is_staff = request.user.is_authenticated and request.user.is_staff
+    
+    
+    if request.path.startswith('/staff'):
+        return {
+            'main_menu': 'staff',
+            'is_admin' : is_admin,
+            'is_staff' : is_staff,
+        }
 
     return {
         'main_menu': MAIN_MENU,
-        'is_admin' : request.user.is_authenticated and request.user.is_superuser,
-        'is_staff' : request.user.is_authenticated and request.user.is_staff,
+        'is_admin' : is_admin,
+        'is_staff' : is_staff,
     }
 
 
