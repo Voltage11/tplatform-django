@@ -1,0 +1,68 @@
+:root {
+  --header-height: 40px;
+  --primary-color: #0d6efd;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f8f9fa;
+}
+
+/* Шапка сайта */
+.navbar {
+  height: var(--header-height);
+  padding: 0 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
+  z-index: 1030;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0;
+  line-height: var(--header-height);
+}
+
+.nav-link {
+  line-height: calc(var(--header-height) - 10px);
+  font-size: 0.9rem;
+}
+
+/* Основной контент */
+.main-content {
+  flex: 1; /* Занимает всё пространство */
+  padding: 2rem 0;
+}
+
+/* Подвал */
+footer {
+  background: #212529;
+  color: #adb5bd;
+  padding: 1.5rem 0;
+  font-size: 0.85rem;
+}
+
+/* Стилизация кнопки входа */
+.auth-link {
+  font-weight: 600;
+  color: var(--primary-color) !important;
+  text-decoration: none;
+}
+
+/* Настройка мобильного меню из-за фиксированной высоты шапки */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: white;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+}
